@@ -16,7 +16,7 @@ class ClickApiTest extends TestCase
     public function test_get_initial_click_count()
     {
         $this->withoutExceptionHandling();
-        $response = $this->get('/api/clicks');
+        $response = $this->get(route('clicks.today'));
 
         $response->assertStatus(200);
         $response->assertJson(['data' => [
