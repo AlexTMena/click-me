@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import ReactDOM from "react-dom";
 
 function App() {
@@ -14,13 +14,34 @@ function App() {
             });
     });
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        fetch("/api/clicks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                count: 1,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setCount(data.data.count);
+            });
+    };
+
     return (
         <Container>
             <div>Click Me!</div>
             <div>
                 <span>{count}</span> Today's Click Count
             </div>
-            <Button>Click Me!</Button>
+            <Form onSubmit={handleSubmit}>
+                <Button type="submit">Click Me!</Button>
+            </Form>
         </Container>
     );
 }
