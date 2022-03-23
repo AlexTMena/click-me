@@ -42,22 +42,36 @@ function App() {
     };
 
     return (
-        <Container>
-            <div>Click Me!</div>
-            <div>{countIsLoading ? <Spinner animation="border" /> : count}</div>
-            <div>Today's Click Count</div>
-            <Form onSubmit={handleSubmit}>
-                <Button
-                    type="submit"
-                    disabled={
-                        countIsLoading || submitHandleIsLoading ? true : false
-                    }
-                >
-                    {countIsLoading || submitHandleIsLoading
-                        ? "Loading.."
-                        : "Click Me!"}
-                </Button>
-            </Form>
+        <Container className="wrapper">
+            <div className="body">
+                <h1 className="body__header">Click Me!</h1>
+                <div className="body__content">
+                    <div className="body__content__count">
+                        {countIsLoading ? (
+                            <Spinner animation="border" />
+                        ) : (
+                            count
+                        )}
+                    </div>
+                    <div className="body__content__text">
+                        Today's Click Count
+                    </div>
+                    <Form onSubmit={handleSubmit}>
+                        <Button
+                            type="submit"
+                            disabled={
+                                countIsLoading || submitHandleIsLoading
+                                    ? true
+                                    : false
+                            }
+                        >
+                            {countIsLoading || submitHandleIsLoading
+                                ? "Loading.."
+                                : "Click Me!"}
+                        </Button>
+                    </Form>
+                </div>
+            </div>
         </Container>
     );
 }
