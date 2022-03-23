@@ -13,10 +13,14 @@ class ClickApiTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function test_get_initial_click_count()
     {
+        $this->withoutExceptionHandling();
         $response = $this->get('/api/clicks');
 
         $response->assertStatus(200);
+        $response->assertJson(['data' => [
+            'count' => 0
+        ]]);
     }
 }
