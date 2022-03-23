@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Response;
+use App\Click;
 
 class ClickController extends Controller
 {
@@ -15,10 +16,12 @@ class ClickController extends Controller
      */
     public function today()
     {
+        $from = now()->startOfDay()->format('Y-m-d H:i:s');
+        $to = now()->endOfDay()->format('Y-m-d H:i:s');
+        $result = Click::whereBetween('created_at', [$from, $to])->first();
+
         return Response::json([
-            'data' => [
-                'count' => 0
-            ]
+            'data' => $result
         ],200);
     }
 
