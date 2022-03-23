@@ -20,8 +20,14 @@ class ClickController extends Controller
         $to = now()->endOfDay()->format('Y-m-d H:i:s');
         $result = Click::whereBetween('created_at', [$from, $to])->first();
 
+        if( $result == null) {
+            $data = Click::create([
+                'count' => 0
+            ]);
+        }
+
         return Response::json([
-            'data' => $result
+            'data' => $result ? $result : $data
         ],200);
     }
 
