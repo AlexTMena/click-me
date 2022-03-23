@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::get('clicks', 'API\ClickController@today')->name('clicks.today');
+Route::post('clicks', 'API\ClickController@increment')->name('clicks.increment');

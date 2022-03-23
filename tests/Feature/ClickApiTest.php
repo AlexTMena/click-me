@@ -23,4 +23,23 @@ class ClickApiTest extends TestCase
             'count' => 0
         ]]);
     }
+
+    public function test_increment_click_count_for_today(){
+        $this->withoutExceptionHandling();
+        $formData = [ 'count' => 1 ];
+
+        $response1 = $this->post(route('clicks.increment'), $formData);
+        $response2 = $this->post(route('clicks.increment'), $formData);
+
+        $response1->assertJson([
+            'data' => [
+                'count' => 1
+            ]
+        ]);
+        $response2->assertJson([
+            'data' => [
+                'count' => 2
+            ]
+        ]);
+    }
 }
