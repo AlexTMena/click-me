@@ -1,8 +1,17 @@
 import React from "react";
+import { Button, Container } from "react-bootstrap";
 import ReactDOM from "react-dom";
 
 function App() {
-    return <div className="container">sample</div>;
+    return (
+        <Container>
+            <div>Click Me!</div>
+            <div>
+                <span>0</span> Today's Click Count
+            </div>
+            <Button>Click Me!</Button>
+        </Container>
+    );
 }
 
 export default App;
