@@ -12,7 +12,7 @@ function App() {
                 console.log(data);
                 setCount(data.data.count);
             });
-    });
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();

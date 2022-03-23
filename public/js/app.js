@@ -85718,7 +85718,7 @@ function App() {
       console.log(data);
       setCount(data.data.count);
     });
-  });
+  }, []);
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
