@@ -85711,17 +85711,29 @@ function App() {
       count = _useState2[0],
       setCount = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      countIsLoading = _useState4[0],
+      setCountIsLoading = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      submitHandleIsLoading = _useState6[0],
+      setSubmitHandleIsLoading = _useState6[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setCountIsLoading(true);
     fetch("/api/clicks").then(function (res) {
+      setCountIsLoading(false);
       return res.json();
     }).then(function (data) {
-      console.log(data);
       setCount(data.data.count);
     });
   }, []);
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
+    setSubmitHandleIsLoading(true);
     fetch("/api/clicks", {
       method: "POST",
       headers: {
@@ -85731,18 +85743,21 @@ function App() {
         count: 1
       })
     }).then(function (res) {
+      setSubmitHandleIsLoading(false);
       return res.json();
     }).then(function (data) {
-      console.log(data);
       setCount(data.data.count);
     });
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Container"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Click Me!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, count), " Today's Click Count"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Container"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Click Me!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, countIsLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Spinner"], {
+    animation: "border"
+  }) : count), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Today's Click Count"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Form"], {
     onSubmit: handleSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    type: "submit"
-  }, "Click Me!")));
+    type: "submit",
+    disabled: countIsLoading || submitHandleIsLoading ? true : false
+  }, countIsLoading || submitHandleIsLoading ? "Loading.." : "Click Me!")));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (App);

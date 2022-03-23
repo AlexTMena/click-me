@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Spinner } from "react-bootstrap";
 import ReactDOM from "react-dom";
 
 function App() {
     const [count, setCount] = useState(0);
+    const [countIsLoading, setCountIsLoading] = useState(false);
+    const [submitHandleIsLoading, setSubmitHandleIsLoading] = useState(false);
 
     useEffect(() => {
+        setCountIsLoading(true);
         fetch("/api/clicks")
-            .then((res) => res.json())
+            .then((res) => {
+                setCountIsLoading(false);
+                return res.json();
+            })
             .then((data) => {
-                console.log(data);
                 setCount(data.data.count);
             });
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setSubmitHandleIsLoading(true);
 
         fetch("/api/clicks", {
             method: "POST",
@@ -26,9 +32,11 @@ function App() {
                 count: 1,
             }),
         })
-            .then((res) => res.json())
+            .then((res) => {
+                setSubmitHandleIsLoading(false);
+                return res.json();
+            })
             .then((data) => {
-                console.log(data);
                 setCount(data.data.count);
             });
     };
@@ -36,11 +44,19 @@ function App() {
     return (
         <Container>
             <div>Click Me!</div>
-            <div>
-                <span>{count}</span> Today's Click Count
-            </div>
+            <div>{countIsLoading ? <Spinner animation="border" /> : count}</div>
+            <div>Today's Click Count</div>
             <Form onSubmit={handleSubmit}>
-                <Button type="submit">Click Me!</Button>
+                <Button
+                    type="submit"
+                    disabled={
+                        countIsLoading || submitHandleIsLoading ? true : false
+                    }
+                >
+                    {countIsLoading || submitHandleIsLoading
+                        ? "Loading.."
+                        : "Click Me!"}
+                </Button>
             </Form>
         </Container>
     );
