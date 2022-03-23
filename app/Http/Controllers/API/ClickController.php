@@ -39,6 +39,22 @@ class ClickController extends Controller
      */
     public function increment(Request $request)
     {
-        //
+        $from = now()->startOfDay()->format('Y-m-d H:i:s');
+        $to = now()->endOfDay()->format('Y-m-d H:i:s');
+        $result = Click::whereBetween('created_at', [$from, $to])->first();
+
+        if($result == null) {
+            $data = Click::create([
+               'count' => 1
+            ]);
+        } else {
+            $increment = $result->count + $request->count;
+            $result->count = $increment;
+            $result->save();
+        }
+
+        return Response::json([
+            'data' => $result ? $result : $data
+        ]);
     }
 }
