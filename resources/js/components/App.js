@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import ReactDOM from "react-dom";
 
 function App() {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        fetch("/api/clicks")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setCount(data.data.count);
+            });
+    });
+
     return (
         <Container>
             <div>Click Me!</div>
             <div>
-                <span>0</span> Today's Click Count
+                <span>{count}</span> Today's Click Count
             </div>
             <Button>Click Me!</Button>
         </Container>
